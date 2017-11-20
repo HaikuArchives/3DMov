@@ -187,14 +187,9 @@ ViewCube :: ViewCube(BRect frame)
 ViewCube :: ~ViewCube()
 {
 	delete fCube;
-	for (int i=0; i < NUMBER_FACES; i++)
-	{
-		if (fMediaSources[i] != GetDefaultMediaSource())
-			delete fMediaSources[i];
-	}
 }
 
-/*	FUNCTION:		ViewCube :: ViewCube
+/*	FUNCTION:		ViewCube :: AttachedToWindow
 	ARGUMENTS:		none
 	RETURN:			n/a
 	DESCRIPTION:	Hook function called when view attached to window (looper)
@@ -216,6 +211,24 @@ void ViewCube :: AttachedToWindow(void)
 	
 	UnlockGL();
 }	
+
+/*	FUNCTION:		ViewCube :: DetachedFromWindow
+	ARGUMENTS:		none
+	RETURN:			n/a
+	DESCRIPTION:	Hook function called when view detached from window (looper)
+*/
+void ViewCube :: DetachedFromWindow(void)
+{
+	LockGL();
+	for (int i=0; i < NUMBER_FACES; i++)
+	{
+		if (fMediaSources[i] != GetDefaultMediaSource())
+			delete fMediaSources[i];
+	}
+	UnlockGL();
+
+	ViewObject::DetachedFromWindow();
+}
 
 /*	FUNCTION:		ViewCube :: Render
 	ARGUMENTS:		none

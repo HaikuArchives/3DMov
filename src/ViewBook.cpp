@@ -284,12 +284,6 @@ ViewBook :: ViewBook(BRect frame)
 */
 ViewBook :: ~ViewBook()
 {
-	for (int i=0; i < NUMBER_SOURCES; i++)
-	{
-		if (fMediaSources[i] != GetDefaultMediaSource())
-			delete fMediaSources[i];
-	}
-
 	for (int i=0; i < NUMBER_PAGES; i++)
 		delete fPages[i];
 }
@@ -323,6 +317,24 @@ void ViewBook :: AttachedToWindow(void)
 	fPages[PAGE_RIGHT]->SetAngle(180);
 
 	UnlockGL();
+}
+
+/*	FUNCTION:		ViewBook :: DetachedFromWindow
+	ARGUMENTS:		none
+	RETURN:			n/a
+	DESCRIPTION:	Hook function called when view detached from window (looper)
+*/
+void ViewBook :: DetachedFromWindow(void)
+{
+	LockGL();
+	for (int i=0; i < NUMBER_SOURCES; i++)
+	{
+		if (fMediaSources[i] != GetDefaultMediaSource())
+			delete fMediaSources[i];
+	}
+	UnlockGL();
+
+	ViewObject::DetachedFromWindow();
 }
 
 /*	FUNCTION:		ViewBook :: Render

@@ -177,8 +177,6 @@ ViewSphere :: ViewSphere(BRect frame)
 ViewSphere :: ~ViewSphere()
 {
 	delete fSphere;
-	if (fMediaSource != GetDefaultMediaSource())
-		delete fMediaSource;
 }
 
 /*	FUNCTION:		ViewSphere :: AttachedToWindow
@@ -199,6 +197,21 @@ void ViewSphere :: AttachedToWindow(void)
 	
 	UnlockGL();
 }	
+
+/*	FUNCTION:		ViewSphere :: DetachedFromWindow
+	ARGUMENTS:		none
+	RETURN:			n/a
+	DESCRIPTION:	Hook function called when view attached to window (looper)
+*/
+void ViewSphere :: DetachedFromWindow(void)
+{
+	LockGL();
+	if (fMediaSource != GetDefaultMediaSource())
+		delete fMediaSource;
+	UnlockGL();
+
+	ViewObject::DetachedFromWindow();
+}
 
 /*	FUNCTION:		ViewSphere :: Render
 	ARGUMENTS:		none

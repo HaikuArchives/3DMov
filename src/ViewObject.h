@@ -48,6 +48,7 @@ public:
 	virtual			~ViewObject();
 	
 	virtual void	AttachedToWindow(void);
+	virtual void	DetachedFromWindow(void);
 	virtual void	FrameResized(float width, float height);
 	virtual void	MouseDown(BPoint) {}
 	virtual void	MouseMoved(BPoint p, uint32 transit, const BMessage *message = NULL) {}

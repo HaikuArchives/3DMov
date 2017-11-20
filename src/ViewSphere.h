@@ -24,6 +24,7 @@ public:
 			~ViewSphere();
 	
 	void	AttachedToWindow();
+	void	DetachedFromWindow();
 	void	MouseDown(BPoint);
 	void	MouseMoved(BPoint p, uint32 transit, const BMessage *message);
 	void	MouseUp(BPoint);

@@ -91,12 +91,6 @@ ViewObject :: ViewObject(BRect frame)
 */
 ViewObject :: ~ViewObject()
 { 
-	if (--sCountViewObjects == 0)
-	{
-		delete sDefaultMediaSource;
-		sDefaultMediaSource = 0;
-		delete sDefaultImage;
-	}
 }
 
 /*	FUNCTION:		ViewObject :: AttachedToWindow
@@ -148,6 +142,24 @@ void ViewObject :: AttachedToWindow(void)
 	MakeFocus(true);
 	UnlockGL();
 }	
+
+/*	FUNCTION:		ViewObject :: DetachedFromWindow
+	ARGUMENTS:		none
+	RETURN:			n/a
+	DESCRIPTION:	Hook function called when view detached from the window (looper)
+*/
+void ViewObject :: DetachedFromWindow(void)
+{
+	LockGL();
+	if (--sCountViewObjects == 0)
+	{
+		delete sDefaultMediaSource;
+		sDefaultMediaSource = 0;
+		delete sDefaultImage;
+	}
+	BGLView::DetachedFromWindow();
+	UnlockGL();
+}
 
 /*	FUNCTION:		ViewObject :: FrameResized
 	ARGUMENTS:		width
