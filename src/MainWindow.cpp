@@ -84,6 +84,9 @@ MainWindow :: MainWindow(BRect frame, SHAPE shape)
 */
 MainWindow :: ~MainWindow()
 {
+	fCurrentView->SetIsStopping(true);
+	status_t ret;
+	wait_for_thread(fAnimationThreadID, &ret);
 	kill_thread(fAnimationThreadID);
 	RemoveChild(fCurrentView);
 	delete fCurrentView;
@@ -219,7 +222,7 @@ void MainWindow :: DirectConnected(direct_buffer_info *info)
 static int32 animation_thread(void *cookie)
 {
 	ViewObject *view = (ViewObject *) cookie;
-	while (1)
+	while (!view->IsStopping())
 	{
 		view->Render();
 		view->GLCheckError();

@@ -59,6 +59,8 @@ public:
 	void			UpdateFrame(MediaSource *source);	// called by video thread
 	void			ToggleWireframe(bool enable);
 	void			GLCheckError();
+	bool			IsStopping() { return fIsStopping; }
+	void			SetIsStopping(bool stopping) { fIsStopping = stopping; }
 	
 protected:
 	virtual bool	SurfaceUpdate(MediaSource *source, float mouse_x, float mouse_y) {return false;}
@@ -67,6 +69,8 @@ protected:
 private:
 	void			GLDetermineFormat(color_space cs, GLenum *format, int *num_bytes);
 	void			GLCreateTexture(MediaSource *source, BBitmap *bitmap);
+
+	bool			fIsStopping;
 	
 	static MediaSource	*sDefaultMediaSource;	// instructions image, shared to conserve resources
 	static BBitmap*		sDefaultImage;
